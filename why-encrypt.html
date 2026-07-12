@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Why Encrypt — A Real-World Path to Post-Quantum Security</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2032%2032%27%3E%0A%3Crect%20x%3D%271%27%20y%3D%271%27%20width%3D%2730%27%20height%3D%2730%27%20rx%3D%276%27%20fill%3D%27%230a0d12%27%20stroke%3D%27%23f2b84b%27%20stroke-width%3D%272%27/%3E%0A%3Cline%20x1%3D%279%27%20y1%3D%279%27%20x2%3D%2723%27%20y2%3D%2723%27%20stroke%3D%27%23a3823a%27%20stroke-width%3D%273%27%20stroke-linecap%3D%27round%27/%3E%0A%3Cline%20x1%3D%2723%27%20y1%3D%279%27%20x2%3D%279%27%20y2%3D%2723%27%20stroke%3D%27%23a3823a%27%20stroke-width%3D%273%27%20stroke-linecap%3D%27round%27/%3E%0A%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="encrypt-logo.svg">
 <meta name="description" content="The post-quantum transition is already underway, not hypothetical. Encrypt follows the same practical path the industry has converged on: analyze with zero-knowledge assessment, then migrate to Hybrid or Pure Post-Quantum Cryptography.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,12 +39,7 @@
   header{position:sticky; top:0; z-index:100; background:rgba(10,13,18,0.88); backdrop-filter:blur(10px); border-bottom:1px solid var(--border-soft);}
   nav{display:flex; align-items:center; justify-content:space-between; padding:18px 32px; max-width:1180px; margin:0 auto;}
   .logo{display:flex; align-items:center; gap:9px; font-family:var(--mono); font-weight:700; font-size:18px; letter-spacing:0.02em;}
-  .logo .mark{
-    width:20px; height:20px; border:1.5px solid var(--gold); border-radius:3px; position:relative; flex-shrink:0;
-    background:
-      linear-gradient(45deg, transparent 48%, var(--gold-dim) 48%, var(--gold-dim) 52%, transparent 52%),
-      linear-gradient(-45deg, transparent 48%, var(--gold-dim) 48%, var(--gold-dim) 52%, transparent 52%);
-  }
+  .logo-mark-img{width:24px; height:24px; flex-shrink:0;}
   .navlinks{display:flex; gap:34px; align-items:center;}
   .navlinks > a{font-family:var(--mono); font-size:13px; color:var(--text-muted); letter-spacing:0.03em; transition:color .15s ease;}
   .navlinks > a:hover, .navlinks > a.active{color:var(--text);}
@@ -175,7 +170,7 @@
 
 <header>
   <nav>
-    <a href="index.html" class="logo"><span class="mark"></span> ENCRYPT</a>
+    <a href="index.html" class="logo"><img src="encrypt-logo.svg" class="logo-mark-img" alt="Encrypt logo"> ENCRYPT</a>
     <div class="navlinks">
       <div class="has-dropdown" id="productDrop">
         <button class="nav-drop-trigger" type="button" aria-expanded="false">Product <span class="caret">▾</span></button>
@@ -391,7 +386,7 @@
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="logo"><span class="mark"></span> ENCRYPT</div>
+        <div class="logo"><img src="encrypt-logo.svg" class="logo-mark-img" alt="Encrypt logo"> ENCRYPT</div>
         <p>Business-adaptive cryptographic solutions that protect your systems from quantum threats.</p>
       </div>
       <div class="footer-col">
