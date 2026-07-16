@@ -119,6 +119,48 @@
   .stat .lbl{font-family:var(--mono); font-size:10.5px; color:var(--text-dim); letter-spacing:0.05em; text-transform:uppercase; margin-top:6px;}
   @media (max-width:640px){.stat-strip{grid-template-columns:repeat(2,1fr);} .stat:nth-child(2){border-right:none;}}
 
+  /* ---------- PQC DEADLINE COUNTDOWN ---------- */
+  .deadline-banner{
+    display:flex; align-items:center; justify-content:flex-start; gap:36px; flex-wrap:nowrap;
+    background:var(--bg-panel-alt); border:1px solid var(--border); border-radius:10px;
+    padding:36px 40px; text-align:left; width:fit-content; max-width:100%; margin:0 auto; position:relative; overflow:hidden;
+  }
+  .deadline-banner::before{
+    content:""; position:absolute; inset:0;
+    background-image:linear-gradient(var(--border-soft) 1px, transparent 1px), linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+    background-size:40px 40px; opacity:0.25; mask-image:radial-gradient(circle at 15% 30%, black, transparent 70%);
+    pointer-events:none;
+  }
+  .deadline-copy{position:relative; z-index:1; max-width:280px; flex-shrink:0;}
+  .deadline-eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--gold); border:1px solid var(--gold-dim); padding:4px 10px; border-radius:2px;
+    margin-bottom:14px;
+  }
+  .deadline-eyebrow::before{content:"●"; font-size:7px; animation:pulse 2s infinite;}
+  .deadline-copy h3{font-family:var(--mono); font-size:24px; font-weight:700; color:var(--text); margin-bottom:12px;}
+  .deadline-copy a{font-family:var(--mono); font-size:14px; color:var(--gold); display:inline-flex; align-items:center; gap:8px; transition:gap .15s ease;}
+  .deadline-copy a:hover{gap:12px;}
+  .countdown-row{display:flex; align-items:center; gap:4px; flex-wrap:nowrap; flex-shrink:1; min-width:0; position:relative; z-index:1;}
+  .countdown-unit{
+    width:82px; flex-shrink:1; min-width:48px; padding:14px 4px 12px; text-align:center; border-radius:6px;
+    background:var(--bg-panel); border:1px solid var(--border);
+    border-top:2px solid var(--gold-dim);
+    transition:border-color .2s ease;
+  }
+  .countdown-unit .cd-num{font-family:var(--mono); font-size:clamp(20px,3vw,30px); font-weight:700; color:var(--gold); font-variant-numeric:tabular-nums;}
+  .countdown-unit .cd-lbl{font-family:var(--mono); font-size:9.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-dim); margin-top:6px; white-space:nowrap;}
+  .countdown-sep{font-family:var(--mono); font-size:24px; color:var(--border); padding:0 2px; flex-shrink:0;}
+  @media (max-width:900px){
+    .deadline-banner{flex-direction:column; align-items:flex-start; padding:28px; gap:24px; width:100%;}
+  }
+  @media (max-width:720px){
+    .countdown-unit{width:64px; padding:10px 0;}
+    .countdown-unit .cd-num{font-size:22px;}
+    .countdown-sep{display:none;}
+  }
+
   /* ---------- SECTION SHARED ---------- */
   section{padding:96px 0; border-bottom:1px solid var(--border-soft);}
   .sec-label{font-family:var(--mono); font-size:12px; letter-spacing:0.12em; color:var(--gold); text-transform:uppercase; margin-bottom:14px;}
@@ -250,11 +292,21 @@
       <a href="#products" class="btn btn-secondary">Explore Product ↓</a>
     </div>
 
-    <div class="stat-strip">
-      <div class="stat"><div class="num">0</div><div class="lbl">Lines of source seen by us</div></div>
-      <div class="stat"><div class="num">4</div><div class="lbl">Crypto pattern categories tracked</div></div>
-      <div class="stat"><div class="num">5</div><div class="lbl">Preset compliance profiles</div></div>
-      <div class="stat"><div class="num">100%</div><div class="lbl">Reproducible, versioned scoring</div></div>
+    <div class="deadline-banner">
+      <div class="deadline-copy">
+        <div class="deadline-eyebrow">Live Countdown</div>
+        <h3>The PQC Deadline is Coming</h3>
+        <a href="why-encrypt.html#qday">Read More →</a>
+      </div>
+      <div class="countdown-row" id="pqcCountdown">
+        <div class="countdown-unit"><div class="cd-num" id="cd-days">--</div><div class="cd-lbl">Days</div></div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-unit"><div class="cd-num" id="cd-hours">--</div><div class="cd-lbl">Hours</div></div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-unit"><div class="cd-num" id="cd-mins">--</div><div class="cd-lbl">Minutes</div></div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-unit"><div class="cd-num" id="cd-secs">--</div><div class="cd-lbl">Seconds</div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -436,6 +488,34 @@
     productDrop.classList.remove('open');
     dropTrigger.setAttribute('aria-expanded', 'false');
   });
+
+  // Countdown to the accelerated PQC migration deadline (Jan 1, 2029)
+  const pqcDeadline = new Date('2029-01-01T00:00:00Z').getTime();
+  function updateCountdown(){
+    const now = Date.now();
+    const diff = pqcDeadline - now;
+    const els = {
+      d: document.getElementById('cd-days'),
+      h: document.getElementById('cd-hours'),
+      m: document.getElementById('cd-mins'),
+      s: document.getElementById('cd-secs')
+    };
+    if (!els.d) return;
+    if (diff <= 0){
+      els.d.textContent = '00'; els.h.textContent = '00'; els.m.textContent = '00'; els.s.textContent = '00';
+      return;
+    }
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const secs = Math.floor((diff % (1000*60)) / 1000);
+    els.d.textContent = String(days);
+    els.h.textContent = String(hours).padStart(2,'0');
+    els.m.textContent = String(mins).padStart(2,'0');
+    els.s.textContent = String(secs).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
 </script>
 </body>
 </html>
